@@ -16,6 +16,7 @@ func (p *SlowPlugin) OnInitialize(config runner.Config, state types.Storage) (ty
 }
 
 func (p *SlowPlugin) OnReady()                       {}
+func (p *SlowPlugin) OnShutdown()                    {}
 func (p *SlowPlugin) OnHealthCheck() (string, error) { return "perfect", nil }
 func (p *SlowPlugin) OnStorageUpdate(current types.Storage) (types.Storage, error) {
 	return current, nil
