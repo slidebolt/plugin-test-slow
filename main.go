@@ -23,7 +23,6 @@ func (p *SlowPlugin) OnStorageUpdate(current types.Storage) (types.Storage, erro
 }
 
 func (p *SlowPlugin) OnDeviceCreate(dev types.Device) (types.Device, error) {
-	dev.Config = types.Storage{Meta: "slow-metadata"}
 	return dev, nil
 }
 func (p *SlowPlugin) OnDeviceUpdate(dev types.Device) (types.Device, error) { return dev, nil }
