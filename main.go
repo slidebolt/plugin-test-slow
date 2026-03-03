@@ -70,7 +70,11 @@ func (p *SlowPlugin) OnEventTyped(evt types.EventTyped[types.GenericPayload], en
 }
 
 func main() {
-	if err := runner.NewRunner(&SlowPlugin{}).Run(); err != nil {
+	r, err := runner.NewRunner(&SlowPlugin{})
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err := r.Run(); err != nil {
 		log.Fatal(err)
 	}
 }
