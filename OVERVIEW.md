@@ -22,3 +22,14 @@ The plugin does not create any devices or entities, nor does it handle any comma
 #### Available Commands
 
 This plugin does not handle any commands. It is intended for internal testing of the Slidebolt system.
+
+#### Standalone Discovery Mode
+
+This plugin supports a standalone discovery mode for rapid testing and diagnostics without requiring the full Slidebolt stack (NATS, Gateway, etc.).
+
+To run discovery and output the results to JSON:
+```bash
+./plugin-test-slow -discover
+```
+
+**Note**: Ensure any required environment variables (e.g., API keys, URLs) are set before running.
