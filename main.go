@@ -13,7 +13,7 @@ type SlowPlugin struct{}
 
 func (p *SlowPlugin) OnInitialize(config runner.Config, state types.Storage) (types.Manifest, types.Storage) {
 	time.Sleep(1 * time.Second)
-	return types.Manifest{ID: "plugin-test-slow", Name: "Slow Loader", Version: "1.0.0"}, state
+	return types.Manifest{ID: "plugin-test-slow", Name: "Slow Loader", Version: "1.0.0", Schemas: types.CoreDomains()}, state
 }
 
 func (p *SlowPlugin) OnReady() {}
@@ -41,14 +41,15 @@ func (p *SlowPlugin) OnDevicesList(current []types.Device) ([]types.Device, erro
 	// Include all existing devices plus the hard-coded discovered one.
 	for _, d := range current {
 		if d.ID == "discovered-after-slow-wait" {
-			return current, nil
+			return runner.EnsureCoreDevice("plugin-test-slow", current), nil
 		}
 	}
-	return append(current, types.Device{
+	current = append(current, types.Device{
 		ID:         "discovered-after-slow-wait",
 		SourceID:   "slow-src",
 		SourceName: "Slow Discovered Device",
-	}), nil
+	})
+	return runner.EnsureCoreDevice("plugin-test-slow", current), nil
 }
 func (p *SlowPlugin) OnDeviceSearch(q types.SearchQuery, res []types.Device) ([]types.Device, error) {
 	return res, nil
@@ -58,14 +59,14 @@ func (p *SlowPlugin) OnEntityCreate(e types.Entity) (types.Entity, error) { retu
 func (p *SlowPlugin) OnEntityUpdate(e types.Entity) (types.Entity, error) { return e, nil }
 func (p *SlowPlugin) OnEntityDelete(d, e string) error                    { return nil }
 func (p *SlowPlugin) OnEntitiesList(d string, c []types.Entity) ([]types.Entity, error) {
-	return c, nil
+	return runner.EnsureCoreEntities("plugin-test-slow", d, c), nil
 }
 
-func (p *SlowPlugin) OnCommandTyped(req types.CommandRequest[types.GenericPayload], entity types.Entity) (types.Entity, error) {
+func (p *SlowPlugin) OnCommand(req types.Command, entity types.Entity) (types.Entity, error) {
 	return entity, nil
 }
 
-func (p *SlowPlugin) OnEventTyped(evt types.EventTyped[types.GenericPayload], entity types.Entity) (types.Entity, error) {
+func (p *SlowPlugin) OnEvent(evt types.Event, entity types.Entity) (types.Entity, error) {
 	return entity, nil
 }
 
