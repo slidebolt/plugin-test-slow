@@ -1,5 +1,13 @@
+# Build output
 .build/
 *.exe
 *.test
 *.out
 vendor/
+
+# Local environment
+.env
+.env.local
+.env.*
+!.env.example
+TASKS/
